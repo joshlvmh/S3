@@ -18,8 +18,8 @@ static ssize_t uob_write_pid(struct file *file, const char __user *buf,
 	// TODO retrieve PID for buf and populate a list
 	__copy_from_user(&pid, buf, count);
 	//system(echo $PID > /sys/kernel/security/uob/pid);	
-	//uob_pid_ops.write();
 	// write (struct file *, const char __user *, size_t, loff_t *);
+	// implement linked list
 	pr_info("UoB: PID added");
 	return 0;
 }
