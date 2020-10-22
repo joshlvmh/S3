@@ -11,12 +11,13 @@
 #include <linux/xattr.h>
 #include <linux/security.h>
 
+int pid;
+
 static ssize_t uob_write_pid(struct file *file, const char __user *buf,
 				size_t count, loff_t *ppos) {
 	// TODO retrieve PID for buf and populate a list
-	pid_t pid;
-	__copy_from_user(pid, buf, count);
-		
+	__copy_from_user(&pid, buf, count);
+	//system(echo $PID > /sys/kernel/security/uob/pid);	
 	//uob_pid_ops.write();
 	// write (struct file *, const char __user *, size_t, loff_t *);
 	pr_info("UoB: PID added");
@@ -30,7 +31,7 @@ static const struct file_operations uob_pid_ops = {
 
 static int __init init_uob_fs(void)
 {
-	struct dentry *prov_dir;
+	struct dentry *uob_dir;
 
 	pr_info("UoB fs: Initialising");
 	/* create uob directory in /sys/kernel/security/ */

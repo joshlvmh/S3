@@ -1,0 +1,11 @@
+# SPDK-License-Identifier: GPL-2.0-only
+config SECURITY_UOB
+	bool "UoB - LSM"
+	depends on SECURITY
+	depends on NET
+	depends on INET
+	select SECURITY_NETWORK
+	select SECURITYFS
+	default y
+	help
+	  This is our lab LSM module.

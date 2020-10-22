@@ -1,9 +1,15 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /* TODO identify needed include */
+#include <linux/lsm_hooks.h>
+#include <linux/types.h>
+
+extern int pid;
 
 static int uob_socket_create(int family, int type,
 				int protocol, int kern)
 {
+	struct task_struct *task = current;
+	if (task->pid == pid) return -EPERM;
 	/* TODO:
 	 * retrieve current process PID
 	 * check if it is on the list or not
@@ -13,9 +19,9 @@ static int uob_socket_create(int family, int type,
 }
 
 /* data structure containing all our hooks */
-static struct uob_hook_list uob_hooks[] __lsm_ro_after_init = {
+static struct security_hook_list uob_hooks[] __lsm_ro_after_init = {
 	LSM_HOOK_INIT(socket_create, uob_socket_create),
-}
+};
 
 static __init int uob_init(void)
 {
